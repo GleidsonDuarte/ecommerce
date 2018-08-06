@@ -7,6 +7,7 @@ use \Slim\Slim;
 use \Hcode\Page;
 use \Hcode\PageAdmin;
 use \Hcode\Model\User;
+use \Hcode\Model\Category;
 
 $app = new Slim();
 
@@ -195,6 +196,17 @@ $app->post("/admin/forgot/reset", function() {
 	]);
 
 	$page->setTpl("forgot-reset-success");
+});
+
+$app->get("/admin/categories", function() {
+	User::verifyLogin();
+
+	$categories = Category::listAll();
+
+	$page = new PageAdmin();
+	$page->setTpl("categories", array(
+		"categories" => $categories
+	));
 });
 
 $app->run();
